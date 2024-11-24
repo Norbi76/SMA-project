@@ -1,35 +1,27 @@
-import { Box } from "@/components/ui/box";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Center } from "@/components/ui/center";
-import { Heading } from "@/components/ui/heading";
-import { Input, InputField } from "@/components/ui/input";
-import { VStack } from "@/components/ui/vstack";
-// import { Text, View } from "react-native";
+import React from 'react';
+import { View, Alert, StyleSheet, Platform } from 'react-native';
+import Button from '../components/Button'; // Adjust the path as necessary
 
-export default function Index() {
+const showAlert = () => {
+  if (Platform.OS === 'web') {
+    window.alert('Button Pressed!');
+  } else {
+    Alert.alert('Button Pressed!');
+  }
+};
+
+export default function App() {
   return (
-    <Center>
-      <Heading>Welcome to HearthStone QuizGame!</Heading>
-      
-      <Input variant="outline" size="md" isDisabled={false} isInvalid={false} isReadOnly={false} >
-          <InputField
-            placeholder='Enter email here...'
-          />
-      </Input>
-
-      <Input variant="outline" size="md" isDisabled={false} isInvalid={false} isReadOnly={false} >
-          <InputField
-            placeholder='Enter password here...'
-          />
-      </Input>
-      
-      <Button size="lg">
-        <ButtonText>Login</ButtonText>
-      </Button>
-
-      <Button size="md">
-        <ButtonText>Sign up</ButtonText>
-      </Button>
-    </Center>
+    <View style={styles.container}>
+      <Button title="Press Me" onPress={showAlert} color='red' />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
