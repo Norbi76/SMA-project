@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Alert, StyleSheet, Platform } from 'react-native';
 import Button from '../components/Button'; 
+import TextInput from '../components/TextInput';
 
 const showAlert = () => {
   if (Platform.OS === 'web') {
@@ -11,10 +12,28 @@ const showAlert = () => {
 };
 
 export default function App() {
+  const [email, setEmailText] = useState('');
+  const [password, setPasswordText] = useState('');
+
   return (
     <View style={styles.container}>
-      <Button title="Press Me" onPress={showAlert} color='red' width={200} />
-      <Button title="Press Me" onPress={showAlert} color='red' width={200} primary={false}/>
+      <TextInput 
+                placeholder="Enter email" 
+                value={email} 
+                onChangeText={setEmailText} 
+                borderColor="black" 
+                width={220}
+      />
+
+      <TextInput 
+                placeholder="Enter password" 
+                value={password} 
+                onChangeText={setPasswordText} 
+                borderColor="black" 
+                width={220}
+      />
+      <Button title="Login" onPress={showAlert} color='red' width={220} />
+      <Button title="Register" onPress={showAlert} color='red' width={220} primary={false}/>
     </View>
   );
 }
@@ -24,5 +43,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'black',
+    gap: 20,
+
+    // borderWidth: 1,
+    // padding: 10,
   },
 });

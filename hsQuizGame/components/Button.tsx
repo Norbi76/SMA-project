@@ -11,13 +11,6 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ title, onPress, color = 'blue', width, height, primary = true }) => {
-    const primaryStyleButton = [
-        {backgroundColor: color, }
-    ];
-    const primaryStyleText = [
-        {color: "white", }
-    ];
-    
     return (
         <TouchableOpacity style={[
             styles.button, 
@@ -34,6 +27,8 @@ const styles = StyleSheet.create({
     button: {
         padding: 10,
         borderRadius: 5,
+        borderWidth: 2,
+        borderColor: 'black',
         alignItems: 'center',
     },
     buttonText: {
