@@ -4,6 +4,10 @@ import Button from '../components/Button';
 import TextInput from '../components/TextInput';
 import Card from '@/components/Container';
 import { useFonts, BungeeSpice_400Regular } from '@expo-google-fonts/dev';
+import { auth } from '../firebaseConfig';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { FirebaseError } from 'firebase/app';
+import { useRouter } from 'expo-router';
 
 const showAlert = () => {
   if (Platform.OS === 'web') {
@@ -16,6 +20,8 @@ const showAlert = () => {
 export default function App() {
   const [email, setEmailText] = useState('');
   const [password, setPasswordText] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
   let [fontsLoaded] = useFonts({
     BungeeSpice_400Regular,
@@ -24,6 +30,37 @@ export default function App() {
   const Spacer = ({ size }: { size: number }) => (
     <View style={{ height: size }} />
   );
+
+  const handleLogin = async () => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('Logged in:', userCredential.user);
+      setErrorMessage(''); // Clear any previous error message
+      // Navigate to the next screen or perform other actions
+      router.push('./home.tsx');
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        if (error.code === 'auth/user-not-found') {
+          setErrorMessage('User does not exist.');
+        } else if (error.code === 'auth/wrong-password') {
+          setErrorMessage('Incorrect password.');
+        } else {
+          setErrorMessage(error.message);
+        }
+      } else {
+        setErrorMessage('An unexpected error occurred.');
+      }
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log('Registered:', userCredential.user);
+    } catch (error) {
+      // Alert.alert('Error', error.message);
+    }
+  };
 
   return (
     <ImageBackground source={Platform.OS === 'web' ? require('../assets/images/R.jpeg') : require('../assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
@@ -47,8 +84,11 @@ export default function App() {
                     borderColor="black" 
                     width={220}
           />
-          <Button title="Login" onPress={showAlert} color='red' width={220} />
-          <Spacer size={90} />
+          <Button title="Login" onPress={handleLogin} color='red' width={220} />
+          <Spacer size={50} />
+          {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        ) : null}
           <Button title="Register" onPress={showAlert} color='red' width={220} primary={false}/>
         </Card>
       </View>
@@ -67,5 +107,10 @@ const styles = StyleSheet.create({
 
     // borderWidth: 1,
     // padding: 10,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    // marginVertical: 10,
   },
 });
