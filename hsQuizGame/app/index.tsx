@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Alert, StyleSheet, Platform } from 'react-native';
-import Button from '../components/Button'; // Adjust the path as necessary
+import Button from '../components/Button'; 
 
 const showAlert = () => {
   if (Platform.OS === 'web') {
@@ -13,7 +13,7 @@ const showAlert = () => {
 export default function App() {
   return (
     <View style={styles.container}>
-      <Button title="Press Me" onPress={showAlert} color='red' />
+      <Button title="Press Me" onPress={showAlert} color='red' width={200} />
     </View>
   );
 }

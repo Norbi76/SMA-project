@@ -5,11 +5,13 @@ interface ButtonProps {
     title: string;
     onPress: (event: GestureResponderEvent) => void;
     color?: string;
+    width?: number;
+    height?: number;
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onPress, color = 'blue' }) => {
+const Button: React.FC<ButtonProps> = ({ title, onPress, color = 'blue', width, height }) => {
     return (
-        <TouchableOpacity style={[styles.button, { backgroundColor: color }]} onPress={onPress}>
+        <TouchableOpacity style={[styles.button, { backgroundColor: color, width: width, height:height, }]} onPress={onPress}>
             <Text style={styles.buttonText}>{title}</Text>
         </TouchableOpacity>
     );
