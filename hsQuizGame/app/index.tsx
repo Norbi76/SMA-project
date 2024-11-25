@@ -14,6 +14,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Button title="Press Me" onPress={showAlert} color='red' width={200} />
+      <Button title="Press Me" onPress={showAlert} color='red' width={200} primary={false}/>
     </View>
   );
 }
