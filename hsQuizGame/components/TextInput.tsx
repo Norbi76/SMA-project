@@ -10,6 +10,7 @@ interface CustomTextInputProps extends TextInputProps {
     borderColor?: string;
     width?: number;
     height?: number;
+    secureTextEntry?: boolean;
 }
 
 const TextInput: React.FC<CustomTextInputProps> = ({ 
@@ -19,6 +20,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
     borderColor = 'gray',
     width,
     height,
+    secureTextEntry = false,
     ...rest 
 }) => {
     return (
@@ -27,6 +29,7 @@ const TextInput: React.FC<CustomTextInputProps> = ({
             placeholder={placeholder}
             value={value}
             onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry}
             {...rest}
         />
     );

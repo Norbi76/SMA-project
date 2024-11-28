@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet, Platform, Text, ImageBackground } from 'react-native';
-import Button from '../components/Button'; 
-import TextInput from '../components/TextInput';
+import Button from '@/components/Button'; 
+import TextInput from '@/components/TextInput';
 import Card from '@/components/Container';
+import Spacer from '@/components/Spacer';
 import { useFonts, BungeeSpice_400Regular } from '@expo-google-fonts/dev';
 import { auth } from '../firebaseConfig';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 const showAlert = () => {
   if (Platform.OS === 'web') {
@@ -27,9 +28,9 @@ export default function App() {
     BungeeSpice_400Regular,
   });
 
-  const Spacer = ({ size }: { size: number }) => (
-    <View style={{ height: size }} />
-  );
+  // const Spacer = ({ size }: { size: number }) => (
+  //   <View style={{ height: size }} />
+  // );
 
   const handleLogin = async () => {
     try {
@@ -37,7 +38,7 @@ export default function App() {
       console.log('Logged in:', userCredential.user);
       setErrorMessage(''); // Clear any previous error message
       // Navigate to the next screen or perform other actions
-      router.push('./home.tsx');
+      router.push('/home');
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/user-not-found') {
@@ -53,13 +54,8 @@ export default function App() {
     }
   };
 
-  const handleRegister = async () => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Registered:', userCredential.user);
-    } catch (error) {
-      // Alert.alert('Error', error.message);
-    }
+  const navigateToRegister = () => {
+    router.push('/register');
   };
 
   return (
@@ -75,6 +71,7 @@ export default function App() {
                     onChangeText={setEmailText} 
                     borderColor="black" 
                     width={220}
+                    // secureTextEntry={true}
           />
 
           <TextInput 
@@ -83,13 +80,14 @@ export default function App() {
                     onChangeText={setPasswordText} 
                     borderColor="black" 
                     width={220}
+                    secureTextEntry={true}
           />
           <Button title="Login" onPress={handleLogin} color='red' width={220} />
           <Spacer size={50} />
           {errorMessage ? (
           <Text style={styles.errorText}>{errorMessage}</Text>
         ) : null}
-          <Button title="Register" onPress={showAlert} color='red' width={220} primary={false}/>
+            <Button title="Register" onPress={navigateToRegister} color='red' width={220} primary={false}/>
         </Card>
       </View>
     </ImageBackground>

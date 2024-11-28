@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent } from 'react
 
 interface ButtonProps {
     title: string;
-    onPress: (event: GestureResponderEvent) => void;
+    onPress?: (event: GestureResponderEvent) => void;
     color?: string;
     width?: number;
     height?: number;
@@ -17,7 +17,9 @@ const Button: React.FC<ButtonProps> = ({ title, onPress, color = 'blue', width, 
             { width: width, height:height, },
             primary ? {backgroundColor: color} : {backgroundColor: 'white'},
         ]} 
-        onPress={onPress}>
+        onPress={onPress}
+        activeOpacity={onPress ? 0.2 : 1}
+        >
             <Text style={[styles.buttonText,primary ? {color: "white"} : {color: color}]}>{title}</Text>
         </TouchableOpacity>
     );
