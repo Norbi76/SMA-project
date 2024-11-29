@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, GestureResponderEvent, Platform } from 'react-native';
 
 interface ButtonProps {
     title: string;
@@ -8,14 +8,24 @@ interface ButtonProps {
     width?: number;
     height?: number;
     primary?: boolean;
+    style?: StyleProp<ViewStyle>
 }
 
-const Button: React.FC<ButtonProps> = ({ title, onPress, color = 'blue', width, height, primary = true }) => {
+const Button: React.FC<ButtonProps> = ({ style, title, onPress, color = 'blue', width, height, primary = true }) => {
     return (
         <TouchableOpacity style={[
             styles.button, 
             { width: width, height:height, },
+            { ...Platform.select({
+                web: {
+                    margin: 10,
+                },
+                android: {
+                    marginBottom: 10,
+                },
+            }), },
             primary ? {backgroundColor: color} : {backgroundColor: 'white'},
+            style,
         ]} 
         onPress={onPress}
         activeOpacity={onPress ? 0.2 : 1}
@@ -32,6 +42,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         alignItems: 'center',
+        alignSelf: 'center',
     },
     buttonText: {
         color: 'white',

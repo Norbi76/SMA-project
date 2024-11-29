@@ -1,7 +1,7 @@
 // FILE: components/TextInput.tsx
 
 import React from 'react';
-import { TextInput as RNTextInput, StyleSheet, TextInputProps } from 'react-native';
+import { TextInput as RNTextInput, StyleSheet, TextInputProps, Platform } from 'react-native';
 
 interface CustomTextInputProps extends TextInputProps {
     placeholder?: string;
@@ -11,6 +11,7 @@ interface CustomTextInputProps extends TextInputProps {
     width?: number;
     height?: number;
     secureTextEntry?: boolean;
+    style?: StyleProp<ViewStyle>
 }
 
 const TextInput: React.FC<CustomTextInputProps> = ({ 
@@ -21,11 +22,28 @@ const TextInput: React.FC<CustomTextInputProps> = ({
     width,
     height,
     secureTextEntry = false,
+    style,
     ...rest 
 }) => {
     return (
         <RNTextInput
-            style={[styles.input, { borderColor:borderColor, width:width, height:height }]}
+            style={[
+                styles.input, 
+                {
+                    borderColor:borderColor, 
+                    width:width, 
+                    height:height,
+                    ...Platform.select({
+                        web: {
+                            margin: 10,
+                        },
+                        android: {
+                            margin: 5,
+                        },
+                    }),
+                }, 
+                style
+            ]}
             placeholder={placeholder}
             value={value}
             onChangeText={onChangeText}
@@ -40,6 +58,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         borderRadius: 5, 
+        alignSelf: 'flex-start',
     },
 });
 

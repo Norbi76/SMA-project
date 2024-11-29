@@ -28,10 +28,6 @@ export default function App() {
     BungeeSpice_400Regular,
   });
 
-  // const Spacer = ({ size }: { size: number }) => (
-  //   <View style={{ height: size }} />
-  // );
-
   const handleLogin = async () => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -65,29 +61,31 @@ export default function App() {
         <Text style={{fontFamily: "BungeeSpice_400Regular", fontSize: Platform.OS === 'web' ? 60 : 25}}>Test your might!</Text>
         <Spacer size={50} />
         <Card padding={20} elevation={5} borderRadius={10}>
-          <TextInput 
-                    placeholder="Enter email" 
-                    value={email} 
-                    onChangeText={setEmailText} 
-                    borderColor="black" 
-                    width={220}
-                    // secureTextEntry={true}
-          />
+          <View>
+            <TextInput 
+                      placeholder="Enter email" 
+                      value={email} 
+                      onChangeText={setEmailText} 
+                      borderColor="black" 
+                      width={220}
+            />
 
-          <TextInput 
-                    placeholder="Enter password" 
-                    value={password} 
-                    onChangeText={setPasswordText} 
-                    borderColor="black" 
-                    width={220}
-                    secureTextEntry={true}
-          />
-          <Button title="Login" onPress={handleLogin} color='red' width={220} />
-          <Spacer size={50} />
-          {errorMessage ? (
-          <Text style={styles.errorText}>{errorMessage}</Text>
-        ) : null}
+            <TextInput 
+                      placeholder="Enter password" 
+                      value={password} 
+                      onChangeText={setPasswordText} 
+                      borderColor="black" 
+                      width={220}
+                      secureTextEntry={true}
+            />
+          </View>
+
+          <View>
+            {errorMessage ? ( <Text style={styles.errorText}>{errorMessage}</Text> ) : null}
+            <Button title="Login" onPress={handleLogin} color='red' width={220} />
             <Button title="Register" onPress={navigateToRegister} color='red' width={220} primary={false}/>
+          </View>
+          
         </Card>
       </View>
     </ImageBackground>
@@ -100,15 +98,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    // borderColor: 'black',
-    // gap: 20,
-
-    // borderWidth: 1,
-    // padding: 10,
   },
   errorText: {
     color: 'red',
     textAlign: 'center',
-    // marginVertical: 10,
   },
 });
