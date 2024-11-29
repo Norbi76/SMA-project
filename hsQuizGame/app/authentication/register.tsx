@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet, Platform, Text, ImageBackground } from 'react-native';
-import Button from '../components/Button'; 
-import TextInput from '../components/TextInput';
+import Button from '@/components/Button'; 
+import TextInput from '@/components/TextInput';
 import Card from '@/components/Container';
 import Spacer from '@/components/Spacer';
 import { useFonts, BungeeSpice_400Regular } from '@expo-google-fonts/dev';
-import { auth } from '../firebaseConfig';
+import { auth } from '@/firebaseConfig';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { router, useRouter } from 'expo-router';
@@ -25,7 +25,7 @@ export default function Register() {
         try {
           const userCredential = await createUserWithEmailAndPassword(auth, email, password);
           console.log('Registered:', userCredential.user);
-          router.push('/');
+          router.push('/authentication');
         } catch (error: unknown) {
             if (error instanceof FirebaseError) {
                 // Alert.alert('Error', error.message);
@@ -35,7 +35,7 @@ export default function Register() {
     };
 
     return (
-        <ImageBackground source={Platform.OS === 'web' ? require('../assets/images/R.jpeg') : require('../assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
+        <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
             <View style={styles.container}>
                 <Text style={{fontFamily: "BungeeSpice_400Regular", fontSize: Platform.OS === 'web' ? 60 : 18}}>Create an account to start playing</Text>
                 <Spacer size={25} />
