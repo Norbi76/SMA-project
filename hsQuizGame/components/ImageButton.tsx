@@ -6,11 +6,12 @@ interface CustomButtonProps {
   width?: number;
   height?: number;
   imagePath: any;
+  onPress?: () => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-export default function CustomButton({ width, height, imagePath }: CustomButtonProps) {
+export default function CustomButton({ width, height, onPress, imagePath }: CustomButtonProps) {
   const router = useRouter();
   const [hoverAnim] = useState(new Animated.Value(0));
   const [pressAnim] = useState(new Animated.Value(1));
@@ -66,7 +67,7 @@ export default function CustomButton({ width, height, imagePath }: CustomButtonP
 
   return (
     <AnimatedPressable
-      onPress={() => router.push('/_sitemap')}
+      onPress={onPress}
       onHoverIn={handleHoverIn}
       onHoverOut={handleHoverOut}
       onPressIn={handlePressIn}
@@ -107,7 +108,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   image: {
-    width: '50%',
-    height: '50%',
+    width: '90%',
+    height: '90%',
   },
 });

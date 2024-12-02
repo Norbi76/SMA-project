@@ -16,7 +16,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({
     children,
     style,
-    padding = 16,
+    padding,
     margin = 8,
     backgroundColor = 'white',
     elevation = 3,
