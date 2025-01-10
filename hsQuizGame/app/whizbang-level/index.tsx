@@ -4,6 +4,7 @@ import { storage, db, auth } from '@/firebaseConfig';
 import { Text, View, Image, StyleSheet, Platform, ImageBackground } from "react-native";
 import React, { useEffect, useState } from 'react';
 import Button from "@/components/Button";
+import { router } from 'expo-router';
 
 export default function Home() {
     const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -73,7 +74,7 @@ export default function Home() {
         }
         setBlurOff(false);
 
-        setTimeout(handleNext, 1000); // Move to the next image after 1 second
+        setTimeout(handleNext, 3000);
     };
 
     const handleNext = () => {
@@ -87,12 +88,28 @@ export default function Home() {
         }
     };
 
+    const saveUserScore = async () => {
+        const user = auth.currentUser;
+        if (user) {
+            const userDocRef = doc(db, 'user_data', user.uid);
+            await setDoc(userDocRef, { 'whizbang-level-highscore': points }, { merge: true });
+        }
+    };
+
     if (showEndMessage) {
+        saveUserScore();
+
         return (
-            <View style={styles.container}>
-                <Text style={styles.endMessage}>You have reached the end of the images.</Text>
-                <Button title="Go to another page" onPress={() => {/* Navigate to another page */}} />
-            </View>
+            <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
+                <View style={styles.container}>
+                    { (points >= imageUrls.length / 2 && points < imageUrls.length) && (<Text style={styles.endMessage}>Good job, you guessed most of the descriptions!</Text>) }
+                    { (points >= 0 && points < imageUrls.length / 2) && (<Text style={styles.endMessage}>Not bad, you guessed some of the descriptions!</Text>) }
+                    { (points == imageUrls.length) && (<Text style={styles.endMessage}>Wow, you guessed all the descriptions, good job!</Text>) }
+                    { (points == 0) && (<Text style={styles.endMessage}>Oh no, you didn't guess any of the descriptions!</Text>) }
+                    <Text style={styles.finalScore}>Final Score: {points}</Text>
+                    <Button title="Go to home page" onPress={() => {router.push('/home')}} />
+                </View>
+            </ImageBackground>
         );
     }
 
@@ -155,8 +172,14 @@ const styles = StyleSheet.create({
         marginTop: 16,  
     },
     endMessage: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+    finalScore: {
         fontSize: 18,
         fontWeight: 'bold',
+        color: 'white',
     },
     optionButton: {
         ...Platform.select({
