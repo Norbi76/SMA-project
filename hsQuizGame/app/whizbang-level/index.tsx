@@ -11,6 +11,7 @@ export default function Home() {
     const [randomDescriptions, setRandomDescriptions] = useState<string[]>([]);
     const [showEndMessage, setShowEndMessage] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [points, setPoints] = useState(0);
     const [buttonTitles, setButtonTitles] = useState<string[][]>([]);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState<number | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -66,6 +67,10 @@ export default function Home() {
         const correctIndex = buttonTitles[currentIndex].indexOf(whizbangLevel[currentIndex]);
         setSelectedButtonIndex(index);
         setIsCorrect(index === correctIndex);
+        if (index === correctIndex) {
+            setPoints((prevPoints) => prevPoints + 1);
+        }
+
         setTimeout(handleNext, 1000); // Move to the next image after 1 second
     };
 
@@ -92,9 +97,15 @@ export default function Home() {
         <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    {imageUrls.length > 0 && (
-                        <Image source={{ uri: imageUrls[currentIndex] }} style={{ width: 250, height: 350 }} />
-                    )}
+                    <View>
+                        {imageUrls.length > 0 && (
+                            <Image source={{ uri: imageUrls[currentIndex] }} style={{ width: 250, height: 350 }} />
+                        )}
+                    </View>
+
+                    <View>
+                        <Text style={styles.scoreText}>Points: {points}</Text>
+                    </View>
                     <View style={styles.answersContainer}>
                         {buttonTitles.length > 0 && buttonTitles[currentIndex].map((title, index) => (
                             <Button
@@ -158,5 +169,10 @@ const styles = StyleSheet.create({
     },
     incorrectButton: {
         backgroundColor: 'red',
+    },
+    scoreText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'white',
     },
   });
