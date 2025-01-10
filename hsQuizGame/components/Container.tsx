@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
         // flex: 1,
         flexDirection: 'column',
         height: '50%',
-        justifyContent: 'space-between',
         gap: 20,
     }
 });

@@ -60,7 +60,7 @@ export default function App() {
         <Text style={{fontFamily: "BungeeSpice_400Regular", fontSize: Platform.OS === 'web' ? 60 : 25}}>HeartStone QuizGame</Text>
         <Text style={{fontFamily: "BungeeSpice_400Regular", fontSize: Platform.OS === 'web' ? 60 : 25}}>Test your might!</Text>
         <Spacer size={50} />
-        <Card padding={20} elevation={5} borderRadius={10}>
+        <Card padding={20} elevation={5} borderRadius={10} style={{justifyContent: 'space-between'}}>
           <View>
             <TextInput 
                       placeholder="Enter email" 

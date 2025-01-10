@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
+import { RelativePathString, ExternalPathString } from 'expo-router';
 
-const Header = () => {
+const Header = ({ route }: { route: RelativePathString }) => {
     const router = useRouter();
 
     return (
         <View style={styles.header}>
-            <TouchableOpacity style={styles.backButton} onPress={() => router.push('/')}>
+            <TouchableOpacity style={styles.backButton} onPress={() => router.push(route)}>
                 <Text style={styles.backButtonText}>👤</Text>
             </TouchableOpacity>
         </View>
