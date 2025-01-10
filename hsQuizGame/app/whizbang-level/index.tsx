@@ -15,6 +15,7 @@ export default function Home() {
     const [buttonTitles, setButtonTitles] = useState<string[][]>([]);
     const [selectedButtonIndex, setSelectedButtonIndex] = useState<number | null>(null);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [BlurOff, setBlurOff] = useState<boolean | null>(true);
 
     useEffect(() => {
         const fetchImages = async () => {
@@ -70,6 +71,7 @@ export default function Home() {
         if (index === correctIndex) {
             setPoints((prevPoints) => prevPoints + 1);
         }
+        setBlurOff(false);
 
         setTimeout(handleNext, 1000); // Move to the next image after 1 second
     };
@@ -80,6 +82,7 @@ export default function Home() {
         } else {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
             setSelectedButtonIndex(null);
+            setBlurOff(true);
             setIsCorrect(null);
         }
     };
@@ -97,10 +100,11 @@ export default function Home() {
         <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
-                    <View>
+                    <View style={styles.image}>
                         {imageUrls.length > 0 && (
                             <Image source={{ uri: imageUrls[currentIndex] }} style={{ width: 250, height: 350 }} />
                         )}
+                        {BlurOff && <View style={styles.blurContainer}></View>}
                     </View>
 
                     <View>
@@ -174,5 +178,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
+    },
+    image: {
+        position: 'relative',
+        width: 250, 
+        height: 350
+    },
+    blurContainer: {
+        position: 'absolute',
+        bottom: 0, 
+        right: 0, 
+        width: '96%', 
+        height: '41%', 
+        backgroundColor: 'rgba(0, 0, 0, 1)'
     },
   });
