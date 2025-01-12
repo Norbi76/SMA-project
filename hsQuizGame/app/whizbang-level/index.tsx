@@ -1,5 +1,5 @@
 import {  ref, listAll, getDownloadURL } from 'firebase/storage';
-import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, getFirestore, increment, setDoc, updateDoc } from 'firebase/firestore';
 import { storage, db, auth } from '@/firebaseConfig';
 import { Text, View, Image, StyleSheet, Platform, ImageBackground } from "react-native";
 import React, { useEffect, useState } from 'react';
@@ -31,7 +31,6 @@ export default function Home() {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                console.log("Document data:", data);
                 if (data.whizbang_level) {
                     setWhizbangLevel(data.whizbang_level);
                 }
@@ -54,6 +53,7 @@ export default function Home() {
     }, [imageUrls, whizbangLevel, randomDescriptions]);
 
     const assignButtonTitles = () => {
+        // FIXME: check why all the correct answers land on the middle button
         const titles = imageUrls.map((_, index) => {
             const randomIndex = Math.floor(Math.random() * 3);
             const buttons = Array(3).fill(null).map(() => {
@@ -97,8 +97,40 @@ export default function Home() {
         }
     };
 
+    const checkIfUserWon = () => {
+        return (points >= imageUrls.length / 2 && points < imageUrls.length);
+    };
+
+    const saveWinLossCount = async () => {
+        const db = getFirestore();
+        const userDocRef = doc(db, "user_data", auth.currentUser?.uid || '');
+
+        if (checkIfUserWon()) {
+            try {
+                await updateDoc(userDocRef, {
+                    wins: increment(1)
+                });
+                console.log("Win Count incremented successfully");
+            } catch (error) {
+                console.error("Error incrementing win count: ", error);
+            }
+        }
+        else {
+            try {
+                await updateDoc(userDocRef, {
+                    losses: increment(1)
+                });
+                console.log("Loss Count incremented successfully");
+            }
+            catch (error) {
+                console.error("Error incrementing loss count: ", error);
+            }
+        }
+    };
+
     if (showEndMessage) {
         saveUserScore();
+        saveWinLossCount();
 
         return (
             <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
@@ -115,6 +147,7 @@ export default function Home() {
     }
 
     return (
+        // TODO: Add a counter for how many cards are left
         <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
