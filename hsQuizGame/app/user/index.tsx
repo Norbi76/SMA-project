@@ -1,6 +1,5 @@
 import Button from "@/components/Button";
 import Card from "@/components/Container";
-import UserStats from "@/components/UserStats";
 import { auth, db } from "@/firebaseConfig";
 import { router } from "expo-router";
 import { doc, getDoc } from "firebase/firestore";

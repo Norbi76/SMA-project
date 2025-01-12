@@ -10,8 +10,6 @@ export default function Home() {
 
     const incrementGamesPlayed = async () => {
         const auth = getAuth();
-        // const user = auth.currentUser;
-        
 
         const db = getFirestore();
         const userDocRef = doc(db, "user_data", auth.currentUser?.uid || '');
@@ -24,9 +22,6 @@ export default function Home() {
         } catch (error) {
             console.error("Error incrementing games played: ", error);
         }
-        
-
-        
     };
 
     return (
