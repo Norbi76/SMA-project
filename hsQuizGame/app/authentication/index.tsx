@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import { View, Alert, StyleSheet, Platform, Text, ImageBackground } from 'react-native';
+import { View, StyleSheet, Platform, Text, ImageBackground } from 'react-native';
 import Button from '@/components/Button';
 import TextInput from '@/components/TextInput';
 import Card from '@/components/Container';
 import Spacer from '@/components/Spacer';
 import { useFonts, BungeeSpice_400Regular } from '@expo-google-fonts/dev';
 import { auth } from '@/firebaseConfig';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { Link, useRouter } from 'expo-router';
-
-const showAlert = () => {
-  if (Platform.OS === 'web') {
-    window.alert('Button Pressed!');
-  } else {
-    Alert.alert('Button Pressed!');
-  }
-};
+import { useRouter } from 'expo-router';
 
 export default function App() {
   const [email, setEmailText] = useState('');

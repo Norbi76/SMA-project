@@ -53,7 +53,6 @@ export default function Home() {
     }, [imageUrls, whizbangLevel, randomDescriptions]);
 
     const assignButtonTitles = () => {
-        // FIXME: check why all the correct answers land on the middle button
         const titles = imageUrls.map((_, index) => {
             const randomIndex = Math.floor(Math.random() * 3);
             const buttons = Array(3).fill(null).map(() => {
@@ -147,10 +146,12 @@ export default function Home() {
     }
 
     return (
-        // TODO: Add a counter for how many cards are left
         <ImageBackground source={Platform.OS === 'web' ? require('@/assets/images/R.jpeg') : require('@/assets/images/OIP.jpeg')} style={{width: '100%', height: '100%',}}>
             <View style={styles.container}>
                 <View style={styles.imageContainer}>
+                    <View style={styles.remainingCards}>
+                        <Text style={styles.scoreText}>Cards Left: {imageUrls.length - currentIndex}</Text>
+                    </View>
                     <View style={styles.image}>
                         {imageUrls.length > 0 && (
                             <Image source={{ uri: imageUrls[currentIndex] }} style={{ width: 250, height: 350 }} />
@@ -248,5 +249,11 @@ const styles = StyleSheet.create({
         width: '96%', 
         height: '41%', 
         backgroundColor: 'rgba(0, 0, 0, 1)'
+    },
+    remainingCards: {
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'flex-end',
     },
   });

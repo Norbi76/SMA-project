@@ -64,8 +64,6 @@ export default function Home() {
     );
 }
 
-// TODO: LogOut Button
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
