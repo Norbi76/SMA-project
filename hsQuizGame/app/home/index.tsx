@@ -16,6 +16,18 @@ export default function Home() {
                     height={100} 
                     onPress={() => router.push('../whizbang-level')}
                 />
+                <ImageButton 
+                    imagePath={require('@/assets/images/home_button_images/paradise-level.png')} 
+                    width={200} 
+                    height={100} 
+                    onPress={() => router.push('../paradise-level')}
+                />
+                <ImageButton 
+                    imagePath={require('@/assets/images/home_button_images/titans-level.png')} 
+                    width={200} 
+                    height={100} 
+                    onPress={() => router.push('../titans-level')}
+                />
             </View>
         </ImageBackground>
     );
@@ -24,7 +36,7 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
+      justifyContent: 'space-evenly',
       alignItems: 'center',
       backgroundColor: 'rgba(0,0,0,0.5)',
     },

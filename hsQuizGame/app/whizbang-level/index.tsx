@@ -1,5 +1,5 @@
 import {  ref, listAll, getDownloadURL } from 'firebase/storage';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { storage, db, auth } from '@/firebaseConfig';
 import { Text, View, Image, StyleSheet, Platform, ImageBackground } from "react-native";
 import React, { useEffect, useState } from 'react';
@@ -25,12 +25,13 @@ export default function Home() {
             const urls = await Promise.all(result.items.map(item => getDownloadURL(item)));
             setImageUrls(urls);
         };
-
+        
         const fetchWhizbangLevel = async () => {
             const docRef = doc(db, 'card_descriptions', 'Hz8Egkl5eVhFhklrDe3W');
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
+                console.log("Document data:", data);
                 if (data.whizbang_level) {
                     setWhizbangLevel(data.whizbang_level);
                 }
