@@ -74,7 +74,7 @@ export default function Home() {
         }
         setBlurOff(false);
 
-        setTimeout(handleNext, 3000);
+        setTimeout(handleNext, 1000);
     };
 
     const handleNext = () => {
